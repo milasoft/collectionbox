@@ -104,22 +104,10 @@ public class CollectionBox  {
 		for(int i = 1; i < 9; i++) {
 			Item item = getItemInSlot(i);
 			if(item != null && item.getID() != -1) {
-				itemList.add(getItemInSlot(i));
+				itemList.add(item);
 			}
 		}
 		return itemList;
-	}
-	
-	/**
-	 * Returns an array of all items in the collection box.
-	 * @return an array of all items in the collection box.
-	 */
-	public Item[] getItemArray() {
-		Item[] items = new Item[8];
-		for(int i = 0; i < 7; i++) {
-			items[i] = getItemInSlot(i + 1);
-		}
-		return items;
 	}
 	
 	/**
@@ -127,7 +115,7 @@ public class CollectionBox  {
 	 * @return True if the collection box is open. False if it failed to open.
 	 */
 	public boolean open() {
-		GameObject bankBooth = c.getGameObjects().closest("Bank booth");
+		GameObject bankBooth = c.getGameObjects().closest("Bank booth", "Bank chest");
 		if(bankBooth != null) {
 			if(bankBooth.interact("Collect")) {
 				MethodContext.sleepUntil(() -> isOpen(), 2500);
@@ -153,16 +141,14 @@ public class CollectionBox  {
 		if(isOpen()) {
 			getCloseButton().interact();
 			MethodContext.sleepUntil(() -> !isOpen(), 2000);
-			return !isOpen();
-		} else {
-			return true;
 		}
+		return !isOpen();
 	}
 	
 	/**
 	 * Withdraw everything from the collection box.
 	 * @param toInventory True to withdraw to inventory. False to withdraw to bank.
-	 * @return
+	 * @return True if successfully withdrew all items.
 	 */
 	public boolean withdrawAll(boolean toInventory) {
 		if(toInventory) {
@@ -171,6 +157,38 @@ public class CollectionBox  {
 			getBankButton().interact();
 		}
 		return !hasItemsToCollect();
+	}
+	
+	/**
+	 * Withdraws the item from the selected slot.
+	 * @param slot The slot to withdraw from.
+	 * @param toInventory True to withdraw to inventory. False to withdraw to bank.
+	 * @return True if successfully withdrew item.
+	 */
+	public boolean withdrawItem(int slot, boolean toInventory) {
+		if(toInventory) {
+			getSlotWidget(slot).getChild(ITEM_BOX).interact();
+		} else {
+			getSlotWidget(slot).getChild(ITEM_BOX).interact("Bank");
+		}
+		MethodContext.sleepUntil(() -> !hasItemInSlot(slot), 2500);
+		return !hasItemInSlot(slot);
+	}
+	
+	/**
+	 * Withdraws the coins from the selected slot.
+	 * @param slot The slot to withdraw from.
+	 * @param toInventory True to withdraw to inventory. False to withdraw to bank.
+	 * @return True if successfully withdrew coins.
+	 */
+	public boolean withdrawCoins(int slot, boolean toInventory) {
+		if(toInventory) {
+			getSlotWidget(slot).getChild(COIN_BOX).interact();
+		} else {
+			getSlotWidget(slot).getChild(COIN_BOX).interact("Bank");
+		}
+		MethodContext.sleepUntil(() -> !hasItemInSlot(slot), 2500);
+		return !hasItemInSlot(slot);
 	}
 	
 	private Widget getInterface() {
