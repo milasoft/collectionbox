@@ -190,6 +190,24 @@ public class CollectionBox  {
 	}
 	
 	/**
+	 * Collects the item with the selected name.
+	 * Also collects any coins associated with that item.
+	 * @param itemName The item name to collect.
+	 * @return True if item was collected.
+	 */
+	public boolean collectItem(String itemName) {
+		for(int i = 1; i < 9; i++) {
+			Item item = getItemInSlot(i);
+			if(item != null && item.getName().equals(itemName)) {
+				collectItem(i, true);
+				collectCoins(i, true);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * collects the coins from the selected slot.
 	 * @param slot The slot to collect from.
 	 * @param toInventory True to collect to inventory. False to collect to bank.
