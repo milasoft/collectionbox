@@ -28,7 +28,7 @@ public class CollectionBox  {
 	/**
 	 * Represents a slot in the collection box. Stores the widget id of the slot.
 	 */
-	public enum Slot {
+	enum Slot {
 		ONE(5), TWO(6), THREE(7), FOUR(8), FIVE(9), SIX(10), SEVEN(11), EIGHT(12);
 		
 		public static final Slot values[] = values();
