@@ -60,6 +60,20 @@ public class CollectionBox  {
 	}
 	
 	/**
+	 * Checks if there are any coins in the collection box.
+	 * @return True if the collection box has coins.
+	 */
+	public boolean hasCoinsToCollect() {
+		for(int i = 1; i < 9; i++) {
+			Item coins = getCoinsInSlot(i);
+			if(coins != null && coins.getID() != -1) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Returns the item in the selected slot.
 	 * @param slot The slot number to check.
 	 * @return the item in the selected slot.
@@ -156,7 +170,7 @@ public class CollectionBox  {
 		} else {
 			getBankButton().interact();
 		}
-		return !hasItemsToCollect();
+		return !hasItemsToCollect() && !hasCoinsToCollect();
 	}
 	
 	/**
@@ -187,8 +201,8 @@ public class CollectionBox  {
 		} else {
 			getSlotWidget(slot).getChild(COIN_BOX).interact("Bank");
 		}
-		MethodContext.sleepUntil(() -> !hasItemInSlot(slot), 2500);
-		return !hasItemInSlot(slot);
+		MethodContext.sleepUntil(() -> !hasCoinsInSlot(slot), 2500);
+		return !hasCoinsInSlot(slot);
 	}
 	
 	private Widget getInterface() {
