@@ -16,8 +16,8 @@ import org.dreambot.api.wrappers.widgets.WidgetChild;
 public class CollectionBox  {
 	
 	public static final int INTERFACE_ID = 402;
-	public static final int WITHDRAW_INVENTORY = 3;
-	public static final int WITHDRAW_BANK = 4;
+	public static final int COLLECT_INVENTORY = 3;
+	public static final int COLLECT_BANK = 4;
 	public static final int CLOSE_PARENT = 2;
 	public static final int CLOSE_CHILD = 11;
 	public static final int ITEM_BOX = 3;
@@ -160,11 +160,11 @@ public class CollectionBox  {
 	}
 	
 	/**
-	 * Withdraw everything from the collection box.
-	 * @param toInventory True to withdraw to inventory. False to withdraw to bank.
-	 * @return True if successfully withdrew all items.
+	 * Collect everything from the collection box.
+	 * @param toInventory True to collect to inventory. False to collect to bank.
+	 * @return True if successfully collected all items.
 	 */
-	public boolean withdrawAll(boolean toInventory) {
+	public boolean collect(boolean toInventory) {
 		if(toInventory) {
 			getInventoryButton().interact();			
 		} else {
@@ -174,12 +174,12 @@ public class CollectionBox  {
 	}
 	
 	/**
-	 * Withdraws the item from the selected slot.
-	 * @param slot The slot to withdraw from.
-	 * @param toInventory True to withdraw to inventory. False to withdraw to bank.
-	 * @return True if successfully withdrew item.
+	 * Collects the item from the selected slot.
+	 * @param slot The slot to collect from.
+	 * @param toInventory True to collect to inventory. False to collect to bank.
+	 * @return True if successfully collected item.
 	 */
-	public boolean withdrawItem(int slot, boolean toInventory) {
+	public boolean collectItem(int slot, boolean toInventory) {
 		if(toInventory) {
 			getSlotWidget(slot).getChild(ITEM_BOX).interact();
 		} else {
@@ -190,12 +190,12 @@ public class CollectionBox  {
 	}
 	
 	/**
-	 * Withdraws the coins from the selected slot.
-	 * @param slot The slot to withdraw from.
-	 * @param toInventory True to withdraw to inventory. False to withdraw to bank.
-	 * @return True if successfully withdrew coins.
+	 * collects the coins from the selected slot.
+	 * @param slot The slot to collect from.
+	 * @param toInventory True to collect to inventory. False to collect to bank.
+	 * @return True if successfully collected coins.
 	 */
-	public boolean withdrawCoins(int slot, boolean toInventory) {
+	public boolean collectCoins(int slot, boolean toInventory) {
 		if(toInventory) {
 			getSlotWidget(slot).getChild(COIN_BOX).interact();
 		} else {
@@ -214,11 +214,11 @@ public class CollectionBox  {
 	}
 	
 	private WidgetChild getInventoryButton() {
-		return getInterface().getChild(WITHDRAW_INVENTORY);
+		return getInterface().getChild(COLLECT_INVENTORY);
 	}
 	
 	private WidgetChild getBankButton() {
-		return getInterface().getChild(WITHDRAW_BANK);
+		return getInterface().getChild(COLLECT_BANK);
 	}
 	
 	private WidgetChild getCloseButton() {
